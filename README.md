@@ -1,5 +1,5 @@
-node_modules dosyalarını projeye ekledikten sonra çalıştırılabilir.
-Girdi kısmında aynı dersi veren farklı öğretmenler var ise bu öğretmenleri ayrı ayrı girmeniz gerekmektedir. 
+# node_modules dosyalarını projeye ekledikten sonra çalıştırılabilir.
+# Girdi kısmında aynı dersi veren farklı öğretmenler var ise bu öğretmenleri ayrı ayrı girmeniz gerekmektedir. 
 (örn. mat 4 özlem-mehmet girdisini
 mat 4 özlem
 mat 4 mehmet
