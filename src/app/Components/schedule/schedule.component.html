@@ -1,0 +1,145 @@
+<div class="col" id="htmlData">
+    <button class="btn btn-outline-secondary" (click)="changeList(btnList)">{{btnList}}</button>
+    <button class="btn btn-outline-secondary" (click)="changeSchedule(btnSchedule)">{{btnSchedule}}</button>
+    <button class="btn btn-outline-secondary" (click)="changeReport(btnReports)">{{btnReports}}</button>
+</div>
+
+<div class="container" >
+    
+        
+        <div  *ngIf="showLists"  class="row">
+            <div class="col-5 mx-auto " id="htmlData">
+                <h3 class="text-wite p-3">
+                    Classes
+                </h3>
+                <div class="input-group mb-3">
+                    <input #Classinput type="text" class="form-control" placeholder="Enter class name" aria-label="Enter class name" aria-describedby="button-addon2"
+                    (keyup.enter)="addClass(Classinput.value); Classinput.value= ''">
+                    <button class="btn btn-secondary" type="button" id="button-addon2" (click)="addClass(Classinput.value); Classinput.value= ''">Add</button>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Class Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of this.lists.getclassesArray() ; let i = index" class="table-secondary" >
+                        <td>{{ i+1 }}</td>
+                        <td>{{ this.lists.getclassesArray()[i].getName()}}</td>
+                        <td>
+                            <button class="btn btn-danger" type="button" id= {{this.lists.getclassesArray()[i].getName()}} (click)="deleteClass(i);">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                <div *ngIf="this.lists.getclassesArray().length > 0 && lessonsTablo.length > 0">
+                    <button class="btn btn-outline-secondary" (click)="createSchedule()">Create schedule</button>
+                </div>
+    
+            </div>
+    
+            <div class="col-6 mx-auto">
+                <h3 class="text-wite p-3">
+                    Lessons
+                </h3>
+                <div class = "input-group mb3">
+                    <input #LessonName type = "text" pattern="[A-Za-z]*" class = "form-control" placeholder="Enter lesson name">
+                    <input #LessonTime type = "number" class = "form-control" placeholder="Enter lesson time">
+                    <input #LessonTeacher type = "text" pattern="[A-Za-z]*" class = "form-control" placeholder="Enter teacher name"
+                    (keyup.enter)="add(LessonName.value,LessonTime.value,LessonTeacher.value);  
+                    LessonName.value='';LessonTime.value='';LessonTeacher.value='';">
+                    <button class="btn btn-secondary" type="button"
+                    (click)="add(LessonName.value,LessonTime.value,LessonTeacher.value); 
+                    LessonName.value='';LessonTime.value='';LessonTeacher.value='';">Add</button>
+                </div>
+                <table class="table table-hover mt-3" scrollY="true">
+                    <thead >
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Lesson Name</th>
+                            <th scope="col">Lesson Time</th>
+                            <th scope="col">Teacher Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of lessonsTablo; let i = index" class="table-secondary">
+                            <td>{{ i+1 }}</td>
+                            <td>{{lessonsTablo[i].split(" ")[0] }}</td>
+                            <td>{{lessonsTablo[i].split(" ")[1] }}</td>
+                            <td>{{lessonsTablo[i].split(" ")[2] }}</td>
+                            <td>
+                                <button class="btn btn-danger" type="button" id= {{i}} (click)="deleteTeacherAndLesson(lessonsTablo[i],i);">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div *ngIf="this.lists.getShow()  && showSchedules" class = "row" >
+            <hr>
+            <div  class = "col-6 mx-auto" *ngFor="let item of this.lists.getclassesArray(); let i = index">
+                <h3>
+                    {{this.lists.getclassesArray()[i].getName() + "  Class weekly schedule"}}
+                </h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of fakeArray; let j = index">
+                            <td>{{ this.lists.getclassesArray()[i].getWeeklySchedule()[j+1]}}</td>
+                            <td>{{ this.lists.getclassesArray()[i].getWeeklySchedule()[j+6]}}</td>
+                            <td>{{ this.lists.getclassesArray()[i].getWeeklySchedule()[j+11]}}</td>
+                            <td>{{ this.lists.getclassesArray()[i].getWeeklySchedule()[j+16]}}</td>
+                            <td>{{ this.lists.getclassesArray()[i].getWeeklySchedule()[j+21]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <div *ngIf="showReports" class="row">
+            <hr>
+            <div class = "col-6 mx-auto " *ngFor="let item of this.lists.getTeachersArray(); let i = index">
+                <h3>
+                    {{this.lists.getTeachersArray()[i].getName() + " weekly schedule"}}
+                </h3>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of fakeArray; let j = index">
+                            <td>{{ this.lists.getTeachersArray()[i].getWeeklySchedule()[j+1]}}</td>
+                            <td>{{ this.lists.getTeachersArray()[i].getWeeklySchedule()[j+6]}}</td>
+                            <td>{{ this.lists.getTeachersArray()[i].getWeeklySchedule()[j+11]}}</td>
+                            <td>{{ this.lists.getTeachersArray()[i].getWeeklySchedule()[j+16]}}</td>
+                            <td>{{ this.lists.getTeachersArray()[i].getWeeklySchedule()[j+21]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div  class = "row">
+                    <div style="width: 32%;" *ngFor="let item of this.lists.getTeachersArray()[i].getDistribution(); let j = index">
+                        <legend > 
+                            {{"  " + this.lists.getTeachersArray()[i].getDistribution()[j] + " - " + this.lists.getTeachersArray()[i].getBranch()[j]}}
+                        </legend>
+                    </div>
+                </div>
+            </div>
+        </div>     
+</div>           
